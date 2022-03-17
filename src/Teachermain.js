@@ -10,7 +10,9 @@ const Teachermain = props => {
   });
   let selectedData = null;
   const [fetchedData] = useHttp(
-    `http://unicodeattendance.pythonanywhere.com/Attendance/dashboard-teacher/${props.location.state}`,
+    `https://unicodeattendance.pythonanywhere.com/Attendance/dashboard-teacher/${
+      props.location.state
+    }`,
     []
   );
   if (fetchedData) {

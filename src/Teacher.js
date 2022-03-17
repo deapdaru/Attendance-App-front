@@ -69,7 +69,7 @@ class Teacher extends React.Component {
     e.preventDefault();
 
     const res = await fetch(
-      "http://unicodeattendance.pythonanywhere.com/Attendance/signup-teacher/",
+      "https://unicodeattendance.pythonanywhere.com/Attendance/signup-teacher/",
       {
         method: "POST",
         headers: {
@@ -120,7 +120,7 @@ class Teacher extends React.Component {
             Sign Up
           </Typography>
           <Grid container spacing={12}>
-            <Grid item xs></Grid>
+            <Grid item xs />
             <Grid item xs>
               <div>
                 <form autoComplete="off">
@@ -196,7 +196,7 @@ class Teacher extends React.Component {
                 </div>
               </div>
             </Grid>
-            <Grid item xs></Grid>
+            <Grid item xs />
           </Grid>
           <Typography variant="h6" style={{marginTop: 10}}>
             Already have an account?{" "}

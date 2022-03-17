@@ -47,7 +47,9 @@ const AttendanceTableRange = props => {
   });
 
   const [fetchedData] = useHttp(
-    `http://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-range/${props.location.state.name}/${props.location.state.div}/${formattedDateStart}/${formattedDateEnd}`,
+    `https://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-range/${
+      props.location.state.name
+    }/${props.location.state.div}/${formattedDateStart}/${formattedDateEnd}`,
     [formattedDateStart, formattedDateEnd]
   );
   const fetchedAttenndance = fetchedData ? fetchedData.attendance : [];

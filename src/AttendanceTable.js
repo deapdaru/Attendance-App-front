@@ -34,7 +34,9 @@ const AttendanceTable = props => {
   });
 
   const [fetchedData] = useHttp(
-    `http://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-day/${props.location.state.name}/${props.location.state.div}/${formattedDate}`,
+    `https://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-day/${
+      props.location.state.name
+    }/${props.location.state.div}/${formattedDate}`,
     [formattedDate]
   );
   const fetchedAttenndance = fetchedData ? fetchedData.attendance : [];

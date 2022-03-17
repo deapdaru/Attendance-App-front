@@ -65,7 +65,9 @@ const EditPage = props => {
   });
 
   const [fetchedData] = useHttp(
-    `http://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-day/${props.location.state.name}/${props.location.state.div}/${formattedDate}`,
+    `https://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-day/${
+      props.location.state.name
+    }/${props.location.state.div}/${formattedDate}`,
     [formattedDate]
   );
   const fetchedAttenndance = fetchedData ? fetchedData.attendance : [];
@@ -87,7 +89,9 @@ const EditPage = props => {
       ],
     };
     fetchCall(
-      `http://unicodeattendance.pythonanywhere.com/Attendance/edit-attendance-of-day/${props.location.state.name}/${props.location.state.div}/${formattedDate}`,
+      `https://unicodeattendance.pythonanywhere.com/Attendance/edit-attendance-of-day/${
+        props.location.state.name
+      }/${props.location.state.div}/${formattedDate}`,
       JSON.stringify(postData)
     );
   };

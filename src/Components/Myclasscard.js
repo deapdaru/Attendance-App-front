@@ -67,7 +67,7 @@ const Myclasscard = props => {
     setFormattedStartDate(formatdDatestart);
     setFormattedDateEnd(formatdDateend);
     downloadCall(
-      `http://unicodeattendance.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/${formatdDatestart}/${formatdDateend}`
+      `https://unicodeattendance.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/${formatdDatestart}/${formatdDateend}`
     );
   };
   const handleOpen = () => {

@@ -53,7 +53,9 @@ const StudentAttend = props => {
   let selectedData = null;
 
   const [fetchedData] = useHttp(
-    `http://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-student/${props.location.subject}/${props.location.sapID}`,
+    `https://unicodeattendance.pythonanywhere.com/Attendance/get-attendance-of-student/${
+      props.location.subject
+    }/${props.location.sapID}`,
     []
   );
   if (fetchedData) {
@@ -71,7 +73,7 @@ const StudentAttend = props => {
       <div>
         <PersistentDrawerLeft />
         <Grid container>
-          <Grid item xs={2}></Grid>
+          <Grid item xs={2} />
           <Grid item xs={8}>
             <Paper style={{padding: 20}}>
               <Grid container className={classes.table}>
@@ -135,7 +137,7 @@ const StudentAttend = props => {
               </Paper>
             </Grid>
           </Grid>
-          <Grid item xs={2}></Grid>
+          <Grid item xs={2} />
         </Grid>
       </div>
     );
