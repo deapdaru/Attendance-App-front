@@ -75,7 +75,8 @@ const Mysubjectcard = props => {
       }/${subject.div}/${formatdDatestart}/${formatdDateend}`
     );
   };
-  const handleOpen = () => {
+  const handleOpen = (name, div) => {
+    setSubject({name, div});
     setOpen(true);
   };
 
@@ -187,64 +188,11 @@ const Mysubjectcard = props => {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    onClick={handleOpen}
+                    onClick={() => handleOpen(subject.name, subject.div)}
                   >
                     View
                     <RemoveRedEyeIcon className={classes.rightIcon} />
                   </Button>
-
-                  <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="form-dialog-title"
-                  >
-                    <div style={{display: "flex"}}>
-                      <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
-                        SELECT VIEWS
-                      </DialogTitle>
-                      <Button
-                        onClick={handleClose}
-                        color="primary"
-                        style={{padding: "10px"}}
-                      >
-                        close
-                      </Button>
-                    </div>
-                    <DialogActions>
-                      <Link
-                        to={{
-                          pathname: `/attendanceTable/${subject.div}`,
-                          state: subject,
-                        }}
-                        style={{textDecoration: "none"}}
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className={classes.button}
-                        >
-                          View single date
-                          {/* <RemoveRedEyeIcon className={classes.rightIcon} /> */}
-                        </Button>
-                      </Link>
-                      <Link
-                        to={{
-                          pathname: `/attendanceTable/range/${subject.div}`,
-                          state: subject,
-                        }}
-                        style={{textDecoration: "none"}}
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className={classes.button}
-                        >
-                          View range date
-                          {/* <RemoveRedEyeIcon className={classes.rightIcon} /> */}
-                        </Button>
-                      </Link>
-                    </DialogActions>
-                  </Dialog>
 
                   <Link
                     to={{pathname: `/editTable/${subject.div}`, state: subject}}
@@ -265,6 +213,59 @@ const Mysubjectcard = props => {
           );
         })}
       </Grid>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <div style={{display: "flex"}}>
+          <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
+            SELECT VIEWS
+          </DialogTitle>
+          <Button
+            onClick={handleClose}
+            color="primary"
+            style={{padding: "10px"}}
+          >
+            close
+          </Button>
+        </div>
+        <DialogActions>
+          <Link
+            to={{
+              pathname: `/attendanceTable/${subject.div}`,
+              state: subject,
+            }}
+            style={{textDecoration: "none"}}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              View single date
+              {/* <RemoveRedEyeIcon className={classes.rightIcon} /> */}
+            </Button>
+          </Link>
+          <Link
+            to={{
+              pathname: `/attendanceTable/range/${subject.div}`,
+              state: subject,
+            }}
+            style={{textDecoration: "none"}}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              View range date
+              {/* <RemoveRedEyeIcon className={classes.rightIcon} /> */}
+            </Button>
+          </Link>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
