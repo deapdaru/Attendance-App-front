@@ -45,6 +45,7 @@ const Mysubjectcard = props => {
   const [formattedDateEnd, setFormattedDateEnd] = useState("");
   const [open, setOpen] = useState(false);
   const [openDownload, setOpenDownload] = useState(false);
+  const [subject, setSubject] = useState({name: "", div: ""});
 
   const [downloadCall] = useDownloadHttp();
 
@@ -55,8 +56,7 @@ const Mysubjectcard = props => {
     setEndDate(date);
   };
 
-  const downloadHandler = (subject, div) => {
-    console.log(subject);
+  const downloadHandler = () => {
     var startcompleteDate = startDate;
     var startdate = startcompleteDate.getDate();
     var startmonth = startcompleteDate.getMonth() + 1;
@@ -70,14 +70,17 @@ const Mysubjectcard = props => {
     setFormattedStartDate(formatdDatestart);
     setFormattedDateEnd(formatdDateend);
     downloadCall(
-      `https://unicodeattendance.pythonanywhere.com/Attendance/get_csv/${subject}/${div}/${formatdDatestart}/${formatdDateend}`
+      `https://unicodeattendance.pythonanywhere.com/Attendance/get_csv/${
+        subject.name
+      }/${subject.div}/${formatdDatestart}/${formatdDateend}`
     );
   };
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleClickDownload = () => {
+  const handleClickDownload = (name, div) => {
+    setSubject({name, div});
     setOpenDownload(true);
   };
 
@@ -93,9 +96,9 @@ const Mysubjectcard = props => {
   return (
     <div>
       <Grid container spacing={16}>
-        {props.taught_subjects.map(subject => {
+        {props.taught_subjects.map((subject, index) => {
           return (
-            <Grid item xs={12} sm={12} md={6}>
+            <Grid key={index} item xs={12} sm={12} md={6}>
               <Card className={classes.card}>
                 <CardContent>
                   <Typography
@@ -125,7 +128,9 @@ const Mysubjectcard = props => {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    onClick={handleClickDownload}
+                    onClick={() =>
+                      handleClickDownload(subject.name, subject.div)
+                    }
                   >
                     Download
                     <CloudDownloadIcon className={classes.rightIcon} />
@@ -166,11 +171,7 @@ const Mysubjectcard = props => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={4}>
                           <Button
-                            onClick={downloadHandler.bind(
-                              this,
-                              subject.name,
-                              subject.div
-                            )}
+                            onClick={downloadHandler}
                             color="primary"
                             variant="contained"
                             style={{padding: "10px"}}
