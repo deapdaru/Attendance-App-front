@@ -8,6 +8,7 @@ import {Grid, Button, CardContent} from "@material-ui/core";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import CreateIcon from "@material-ui/icons/Create";
 import RemoveRedEyeIcon from "@material-ui/icons/RemoveRedEye";
+import DescriptionIcon from "@material-ui/icons/Description";
 import {Link, Redirect} from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -46,6 +47,7 @@ const Mysubjectcard = props => {
   const [open, setOpen] = useState(false);
   const [openDownload, setOpenDownload] = useState(false);
   const [subject, setSubject] = useState({name: "", div: ""});
+  const [sapSheetOpen, setSapSheetOpen] = useState(false);
 
   const [downloadCall] = useDownloadHttp();
 
@@ -75,9 +77,37 @@ const Mysubjectcard = props => {
       }/${subject.div}/${formatdDatestart}/${formatdDateend}`
     );
   };
+
+  const downloadSapSheetHandler = () => {
+    var startcompleteDate = startDate;
+    var startdate = startcompleteDate.getDate();
+    var startmonth = startcompleteDate.getMonth() + 1;
+    var startyear = startcompleteDate.getFullYear();
+    var endcompleteDate = endDate;
+    var enddate = endcompleteDate.getDate();
+    var endmonth = endcompleteDate.getMonth() + 1;
+    var endyear = endcompleteDate.getFullYear();
+    const formatdDatestart = startdate + "-" + startmonth + "-" + startyear;
+    const formatdDateend = enddate + "-" + endmonth + "-" + endyear;
+    setFormattedStartDate(formatdDatestart);
+    setFormattedDateEnd(formatdDateend);
+    downloadCall(
+      `https://unicodeattendance.pythonanywhere.com/Attendance/download-sap-sheet/${
+        subject.name
+      }/${subject.div}/${formatdDatestart}/${formatdDateend}`,
+      ".docx"
+    );
+  };
+
   const handleOpen = (name, div) => {
     setSubject({name, div});
     setOpen(true);
+  };
+
+  const handleSapSheetOpen = (name, div) => {
+    console.log(name, div);
+    setSubject({name, div});
+    setSapSheetOpen(true);
   };
 
   const handleClickDownload = (name, div) => {
@@ -87,6 +117,10 @@ const Mysubjectcard = props => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSapSheetClose = () => {
+    setSapSheetOpen(false);
   };
 
   const handleCloseDownload = () => {
@@ -136,54 +170,6 @@ const Mysubjectcard = props => {
                     Download
                     <CloudDownloadIcon className={classes.rightIcon} />
                   </Button>
-
-                  <Dialog
-                    open={openDownload}
-                    onClose={handleCloseDownload}
-                    aria-labelledby="form-dialog-title"
-                    variant="outlined"
-                    style={{padding: 20}}
-                  >
-                    <div style={{display: "flex"}}>
-                      <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
-                        SELECT Dates
-                      </DialogTitle>
-                      <Button
-                        onClick={handleCloseDownload}
-                        color="primary"
-                        style={{padding: "10px"}}
-                      >
-                        close
-                      </Button>
-                    </div>
-                    <DialogActions>
-                      <Grid container spacing={24} style={{padding: 10}}>
-                        <Grid item xs={12} sm={12} md={4}>
-                          <Datepicker
-                            startDate={startDate}
-                            handleChange={handleChange}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={4}>
-                          <Datepicker
-                            startDate={endDate}
-                            handleChange={handleChangeEnd}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={4}>
-                          <Button
-                            onClick={downloadHandler}
-                            color="primary"
-                            variant="contained"
-                            style={{padding: "10px"}}
-                          >
-                            Download
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </DialogActions>
-                  </Dialog>
-
                   <Button
                     variant="contained"
                     color="primary"
@@ -193,7 +179,6 @@ const Mysubjectcard = props => {
                     View
                     <RemoveRedEyeIcon className={classes.rightIcon} />
                   </Button>
-
                   <Link
                     to={{pathname: `/editTable/${subject.div}`, state: subject}}
                     style={{textDecoration: "none"}}
@@ -207,12 +192,64 @@ const Mysubjectcard = props => {
                       <CreateIcon className={classes.rightIcon} />
                     </Button>
                   </Link>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={() =>
+                      handleSapSheetOpen(subject.name, subject.div)
+                    }
+                  >
+                    Sheet
+                    <DescriptionIcon className={classes.rightIcon} />
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>
           );
         })}
       </Grid>
+
+      <Dialog
+        open={openDownload}
+        onClose={handleCloseDownload}
+        aria-labelledby="form-dialog-title"
+        variant="outlined"
+        style={{padding: 20}}
+      >
+        <div style={{display: "flex"}}>
+          <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
+            SELECT Dates
+          </DialogTitle>
+          <Button
+            onClick={handleCloseDownload}
+            color="primary"
+            style={{padding: "10px"}}
+          >
+            close
+          </Button>
+        </div>
+        <DialogActions>
+          <Grid container spacing={24} style={{padding: 10}}>
+            <Grid item xs={12} sm={12} md={4}>
+              <Datepicker startDate={startDate} handleChange={handleChange} />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <Datepicker startDate={endDate} handleChange={handleChangeEnd} />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <Button
+                onClick={downloadHandler}
+                color="primary"
+                variant="contained"
+                style={{padding: "10px"}}
+              >
+                Download
+              </Button>
+            </Grid>
+          </Grid>
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         open={open}
@@ -264,6 +301,47 @@ const Mysubjectcard = props => {
               {/* <RemoveRedEyeIcon className={classes.rightIcon} /> */}
             </Button>
           </Link>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={sapSheetOpen}
+        onClose={handleSapSheetClose}
+        aria-labelledby="form-dialog-title"
+        variant="outlined"
+        style={{padding: 20}}
+      >
+        <div style={{display: "flex"}}>
+          <DialogTitle id="form-dialog-title" style={{flexGrow: 1}}>
+            SELECT Dates
+          </DialogTitle>
+          <Button
+            onClick={handleSapSheetClose}
+            color="primary"
+            style={{padding: "10px"}}
+          >
+            close
+          </Button>
+        </div>
+        <DialogActions>
+          <Grid container spacing={24} style={{padding: 10}}>
+            <Grid item xs={12} sm={12} md={4}>
+              <Datepicker startDate={startDate} handleChange={handleChange} />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <Datepicker startDate={endDate} handleChange={handleChangeEnd} />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <Button
+                onClick={downloadSapSheetHandler}
+                color="primary"
+                variant="contained"
+                style={{padding: "10px"}}
+              >
+                Download
+              </Button>
+            </Grid>
+          </Grid>
         </DialogActions>
       </Dialog>
     </div>
