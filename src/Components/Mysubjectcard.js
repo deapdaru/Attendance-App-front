@@ -40,6 +40,7 @@ const styles = theme => ({
 });
 
 const Mysubjectcard = props => {
+  console.log(props);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [formattedDateStart, setFormattedStartDate] = useState("");
@@ -143,20 +144,35 @@ const Mysubjectcard = props => {
                   >
                     <b>{subject.name}</b>
                   </Typography>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    className={classes.content}
-                  >
-                    Semester{subject.semester}
-                  </Typography>
-                  <Typography
-                    variant="title"
-                    gutterBottom
-                    className={classes.content}
-                  >
-                    {subject.subjectCode}
-                  </Typography>
+                  <Grid container spacing={0}>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        className={classes.content}
+                      >
+                        Year: {subject.div.split("_")[0]}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        className={classes.content}
+                      >
+                        Semester: {subject.semester}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        className={classes.content}
+                      >
+                        Division: {subject.div.split("_")[1]}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </CardContent>
                 <CardActions disableActionSpacing>
                   <Button
